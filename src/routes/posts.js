@@ -3,10 +3,27 @@ const Post = require("../models/Post");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("Posts");
+// GET /posts
+router.get("/", async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.json(posts);
+  } catch (err) {
+    res.json({ message: err });
+  }
 });
 
+// GET /posts/:id
+router.get("/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    res.json(post);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+// POST /posts
 router.post("/", async (req, res) => {
   const post = new Post({
     title: req.body.title,
