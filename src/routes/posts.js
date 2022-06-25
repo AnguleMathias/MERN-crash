@@ -37,4 +37,18 @@ router.post("/", async (req, res) => {
   }
 });
 
+// PUT /posts/:id
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedPost = await Post.updateOne(
+      { _id: req.params.id },
+      { $set: { title: req.body.title, description: req.body.description } }
+    );
+    res.json(updatedPost);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+
 module.exports = router;
