@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
 
+// parse application/json
+app.use(bodyParser.json());
+
 // import routes
 const postsRoute = require("./src/routes/posts");
 
-app.use('/posts', postsRoute);
+app.use("/posts", postsRoute);
 
 // routes
 app.get("/", (req, res) => {
@@ -15,10 +19,8 @@ app.get("/", (req, res) => {
 });
 
 // connect to mongodb
-mongoose.connect(
-  process.env.MONGODB_URI,
-  { useNewUrlParser: true },
-  () => console.log("connected to mongodb")
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }, () =>
+  console.log("connected to mongodb")
 );
 
 // listen for requests
